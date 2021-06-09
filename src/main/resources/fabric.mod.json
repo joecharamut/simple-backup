@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "simplebackup",
+  "version": "${version}",
+
+  "name": "Simple Backup",
+  "description": "A quick backup mod because no one has updated one for 1.17 yet",
+  "authors": [
+    "Joe"
+  ],
+  "contact": {
+    "homepage": "https://github.com/joecharamut/simple-backup"
+  },
+
+  "license": "GPL-3.0-only",
+  "icon": "assets/simplebackup/icon.png",
+
+  "environment": "server",
+  "entrypoints": {
+    "server": [
+      "rocks.spaghetti.simplebackup.SimpleBackup"
+    ]
+  },
+  "mixins": [
+    "simplebackup.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  }
+}
