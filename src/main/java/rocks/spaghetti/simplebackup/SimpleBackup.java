@@ -22,7 +22,6 @@ import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import rocks.spaghetti.simplebackup.backup.BackupManager;
 
 public class SimpleBackup implements DedicatedServerModInitializer {
     @Override

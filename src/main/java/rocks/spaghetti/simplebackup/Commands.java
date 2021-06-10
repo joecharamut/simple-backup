@@ -27,7 +27,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 import net.minecraft.world.GameRules;
-import rocks.spaghetti.simplebackup.backup.BackupManager;
 
 import static net.minecraft.server.command.CommandManager.*;
 

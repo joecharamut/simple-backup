@@ -15,11 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package rocks.spaghetti.simplebackup.backup;
+package rocks.spaghetti.simplebackup;
 
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.model.enums.CompressionLevel;
+import net.lingala.zip4j.model.enums.CompressionMethod;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.WorldSavePath;
-import rocks.spaghetti.simplebackup.ModConfig;
 import rocks.spaghetti.simplebackup.mixins.MinecraftServerSessionAccessor;
 
 import java.io.File;
@@ -122,17 +125,23 @@ public class BackupManager {
             broadcastToOps(server, "Saved the game");
 
             broadcastToOps(server, "Compressing backup");
-            File worldFile = ((MinecraftServerSessionAccessor) server).getSession().getDirectory(WorldSavePath.ROOT).getParent().toFile();
+            File worldDir = ((MinecraftServerSessionAccessor) server).getSession().getDirectory(WorldSavePath.ROOT).getParent().toFile();
             File backupDir = new File(server.getRunDirectory(), "backup");
             if (!backupDir.isDirectory() && !backupDir.mkdir()) {
                 throw new IOException("Could not create backup directory");
             }
 
             File backupFile = new File(backupDir, String.format("%s_%s.zip",
-                    worldFile.getName().replaceAll("\\s", "-"),
+                    worldDir.getName().replaceAll("\\s", "-"),
                     DATE_FORMAT.format(new Date())));
 
-            ZipCompressor.compress(worldFile, backupFile);
+            ZipParameters params = new ZipParameters();
+            params.setCompressionMethod(CompressionMethod.DEFLATE);
+            params.setCompressionLevel(CompressionLevel.NORMAL);
+
+            ZipFile zip = new ZipFile(backupFile);
+            zip.addFolder(worldDir, params);
+
             broadcastToOps(server, "Done: " + backupFile.toString());
 
             int toKeep = ModConfig.getBackupsToKeep();
