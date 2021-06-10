@@ -4,7 +4,7 @@
   "package": "rocks.spaghetti.simplebackup.mixins",
   "compatibilityLevel": "JAVA_16",
   "server": [
-
+    "MinecraftServerSessionAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

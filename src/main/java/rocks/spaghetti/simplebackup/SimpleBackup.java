@@ -17,11 +17,20 @@
 
 package rocks.spaghetti.simplebackup;
 
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.DedicatedServerModInitializer;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import rocks.spaghetti.simplebackup.backup.BackupManager;
 
 public class SimpleBackup implements DedicatedServerModInitializer {
     @Override
     public void onInitializeServer() {
+        AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
+        ModConfig.reloadConfig();
 
+        CommandRegistrationCallback.EVENT.register(Commands::register);
+        ServerTickEvents.END_SERVER_TICK.register(BackupManager.INSTANCE::tick);
     }
 }
